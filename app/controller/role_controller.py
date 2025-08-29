@@ -4,12 +4,14 @@ from app.config.database import get_db
 from app.schema.role_schema import *
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
+from app.utils.permission import require_permission
+from app.enums.enums import Permission
 
 
 router = APIRouter()
 
 @router.post("")
-async def create_role_controller(payload:CreateRole, db:AsyncSession = Depends(get_db)):
+async def create_role_controller(payload:CreateRole, db:AsyncSession = Depends(get_db), permission_check:None = Depends(require_permission(Permission.CREATE_ROLE_CONTROLLER))):
     service = RoleService(db)
     result = await service.create_role_service(payload)
     return result

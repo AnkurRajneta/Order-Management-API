@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from typing import List
 from fastapi import HTTPException
-
+from app.models import *
 
 
 class UserRepository:
@@ -22,6 +22,12 @@ class UserRepository:
         await self.db.commit()
         await self.db.refresh(new_user)
         return new_user
+    
+
+    async def get_user_by_email(self, email:EmailStr):
+        stmt = select(UserModel).where(UserModel.email == email).options(selectinload(UserModel.role))
+        result = await self.db.execute(stmt)
+        return result.scalars().first()
     
 
     async def get_all_user_repository(self):

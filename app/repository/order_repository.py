@@ -1,3 +1,4 @@
+from app.models.orderItem_model import OrderItemModel
 from app.models.order_model import OrderModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.schema.order_schema import CreateOrder, UpdateOrder
@@ -22,12 +23,12 @@ class OrderRepository:
     
 
     async def get_all_order_repository(self):
-        stmt = select(OrderModel).options(selectinload(OrderModel.user))
+        stmt = select(OrderModel).options(selectinload(OrderModel.orderitems).selectinload(OrderItemModel.product))
         result =await self.db.execute(stmt)
         return result.scalars().all()
     
     async def get_order_by_id_repository(self, id:int):
-        stmt = select(OrderModel).where(OrderModel.id == id)
+        stmt = select(OrderModel).where(OrderModel.id == id).options(selectinload(OrderModel.orderitems).selectinload(OrderItemModel.product))
         result = await self.db.execute(stmt)
         return result.scalars().first()
     

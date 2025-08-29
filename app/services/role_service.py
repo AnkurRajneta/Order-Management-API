@@ -1,5 +1,5 @@
 from app.repository.role_repository import RoleRepository
-from app.schema.role_schema import CreateRole, UpdateRole
+from app.schema.role_schema import *
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -10,6 +10,7 @@ class RoleService:
     async def create_role_service(self, payload:CreateRole):
         return await self.repo.create_role_repository(payload)
     
+  
     async def get_all_role_service(self):
         return await self.repo.get_all_role_repository()
     

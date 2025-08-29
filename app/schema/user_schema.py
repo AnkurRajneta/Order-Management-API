@@ -28,6 +28,16 @@ class UserOut(BaseModel):
     email:EmailStr
     password:str
     role_id:int
+    
+    class Config:
+        from_attributes = True
+
+class UserCombinedOut(BaseModel):
+    id:int
+    username:str
+    email:EmailStr
+    password:str
+    role_id:int
     role:RoleOut
 
     class Config:

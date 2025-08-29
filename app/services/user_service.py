@@ -1,5 +1,5 @@
 from app.repository.user_repository import UserRepository
-from app.schema.user_schema import CreateUser, UpdateUser
+from app.schema.user_schema import *
 from sqlalchemy.ext.asyncio import AsyncSession
 
 class UserService:
@@ -8,6 +8,9 @@ class UserService:
 
     async def create_user_service(self, payload:CreateUser):
         return await self.repo.create_user_repository(payload)
+    
+    async def get_user_by_email(self, email:EmailStr):
+        return await self.repo.get_user_by_email(email)
     
     async def get_all_user_service(self):
         return await self.repo.get_all_user_repository()
